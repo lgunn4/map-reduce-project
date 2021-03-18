@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Path of Hadoop streaming JAR library
+STREAMJAR=/usr/lib/hadoop-0.20-mapreduce/contrib/streaming/hadoop-streaming-2.6.0-mr1-cdh5.12.0.jar
+
+#Directory that output is stored into
+
+INPUT=/user/cloudera/Inverted/input
+OUTPUT=/user/cloudera/Inverted/output
+
+codeDir=/home/cloudera/Inverted
+
+hadoop fs -rm -f -r $OUTPUT
+
+hadoop jar $STREAMJAR \
+   -file  $codeDir/mapper.py -mapper mapper.py  \
+   -file  $codeDir/reducer.py -reducer reducer.py  \
+   -input  $INPUT \
+   -output $OUTPUT
